@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="900.0" prefWidth="1200.0" stylesheets="@../css/window.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WindowController">
+    <children>
+        <VBox layoutX="15.0" layoutY="12.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+            <children>
+                <HBox alignment="CENTER" spacing="25.0" styleClass="hBox-1">
+                    <children>
+                        <Label styleClass="label-1" text="Elevator Id" />
+                        <Label styleClass="label-1" text="Current Floor" />
+                        <Label styleClass="label-1" text="direction" />
+                        <Label styleClass="label-1" text="Target Floor" />
+                        <Label styleClass="label-1" text="Select Floor" />
+                        <Label styleClass="label-1" text="Confirm" />
+                        <Label styleClass="label-1" text="Pickup" />
+                        <Label styleClass="label-1" text="Confirm" />
+                    </children>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                </HBox>
+                <HBox alignment="CENTER" spacing="25.0">
+                    <children>
+                        <Label styleClass="label-2" text="1" />
+                        <Label styleClass="label-2" text="1" />
+                        <Label styleClass="label-1" text="UP" />
+                        <Label styleClass="label-2" text="2" />
+                        <ChoiceBox styleClass="choice-box-1">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <Integer fx:value="1" />
+                                    <Integer fx:value="2" />
+                                    <Integer fx:value="3" />
+                                    <Integer fx:value="4" />
+                                    <Integer fx:value="5" />
+                                    <Integer fx:value="6" />
+                                    <Integer fx:value="7" />
+                                    <Integer fx:value="8" />
+                                    <Integer fx:value="9" />
+                                    <Integer fx:value="10" />
+                                </FXCollections>
+                            </items>
+                        </ChoiceBox>
+                        <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                        <ChoiceBox>
+
+                            <styleClass>choice-box-1</styleClass>
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="UP" />
+                                    <String fx:value="DOWN" />
+                                </FXCollections>
+                            </items>
+                        </ChoiceBox>
+                        <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                    </children>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                </HBox>
+                <HBox alignment="CENTER" spacing="25.0">
+                    <children>
+                        <Label styleClass="label-2" text="1" />
+                        <Label styleClass="label-2" text="1" />
+                        <Label styleClass="label-1" text="UP" />
+                        <Label styleClass="label-2" text="2" />
+                        <ChoiceBox styleClass="choice-box-1">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <Integer fx:value="1" />
+                                    <Integer fx:value="2" />
+                                    <Integer fx:value="3" />
+                                    <Integer fx:value="4" />
+                                    <Integer fx:value="5" />
+                                    <Integer fx:value="6" />
+                                    <Integer fx:value="7" />
+                                    <Integer fx:value="8" />
+                                    <Integer fx:value="9" />
+                                    <Integer fx:value="10" />
+                                </FXCollections>
+                            </items>
+                        </ChoiceBox>
+                        <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                        <ChoiceBox>
+
+                            <styleClass>choice-box-1</styleClass>
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="UP" />
+                                    <String fx:value="DOWN" />
+                                </FXCollections>
+                            </items>
+                        </ChoiceBox>
+                        <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                    </children>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                </HBox> <HBox alignment="CENTER" spacing="25.0">
+                <children>
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-1" text="UP" />
+                    <Label styleClass="label-2" text="2" />
+                    <ChoiceBox styleClass="choice-box-1">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <Integer fx:value="1" />
+                                <Integer fx:value="2" />
+                                <Integer fx:value="3" />
+                                <Integer fx:value="4" />
+                                <Integer fx:value="5" />
+                                <Integer fx:value="6" />
+                                <Integer fx:value="7" />
+                                <Integer fx:value="8" />
+                                <Integer fx:value="9" />
+                                <Integer fx:value="10" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                    <ChoiceBox>
+
+                        <styleClass>choice-box-1</styleClass>
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="UP" />
+                                <String fx:value="DOWN" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                </children>
+                <opaqueInsets>
+                    <Insets />
+                </opaqueInsets>
+            </HBox> <HBox alignment="CENTER" spacing="25.0">
+                <children>
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-1" text="UP" />
+                    <Label styleClass="label-2" text="2" />
+                    <ChoiceBox styleClass="choice-box-1">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <Integer fx:value="1" />
+                                <Integer fx:value="2" />
+                                <Integer fx:value="3" />
+                                <Integer fx:value="4" />
+                                <Integer fx:value="5" />
+                                <Integer fx:value="6" />
+                                <Integer fx:value="7" />
+                                <Integer fx:value="8" />
+                                <Integer fx:value="9" />
+                                <Integer fx:value="10" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                    <ChoiceBox>
+
+                        <styleClass>choice-box-1</styleClass>
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="UP" />
+                                <String fx:value="DOWN" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                </children>
+                <opaqueInsets>
+                    <Insets />
+                </opaqueInsets>
+            </HBox> <HBox alignment="CENTER" spacing="25.0">
+                <children>
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-1" text="UP" />
+                    <Label styleClass="label-2" text="2" />
+                    <ChoiceBox styleClass="choice-box-1">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <Integer fx:value="1" />
+                                <Integer fx:value="2" />
+                                <Integer fx:value="3" />
+                                <Integer fx:value="4" />
+                                <Integer fx:value="5" />
+                                <Integer fx:value="6" />
+                                <Integer fx:value="7" />
+                                <Integer fx:value="8" />
+                                <Integer fx:value="9" />
+                                <Integer fx:value="10" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                    <ChoiceBox>
+
+                        <styleClass>choice-box-1</styleClass>
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="UP" />
+                                <String fx:value="DOWN" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                </children>
+                <opaqueInsets>
+                    <Insets />
+                </opaqueInsets>
+            </HBox> <HBox alignment="CENTER" spacing="25.0">
+                <children>
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-1" text="UP" />
+                    <Label styleClass="label-2" text="2" />
+                    <ChoiceBox styleClass="choice-box-1">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <Integer fx:value="1" />
+                                <Integer fx:value="2" />
+                                <Integer fx:value="3" />
+                                <Integer fx:value="4" />
+                                <Integer fx:value="5" />
+                                <Integer fx:value="6" />
+                                <Integer fx:value="7" />
+                                <Integer fx:value="8" />
+                                <Integer fx:value="9" />
+                                <Integer fx:value="10" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                    <ChoiceBox>
+
+                        <styleClass>choice-box-1</styleClass>
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="UP" />
+                                <String fx:value="DOWN" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                </children>
+                <opaqueInsets>
+                    <Insets />
+                </opaqueInsets>
+            </HBox> <HBox alignment="CENTER" spacing="25.0">
+                <children>
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-1" text="UP" />
+                    <Label styleClass="label-2" text="2" />
+                    <ChoiceBox styleClass="choice-box-1">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <Integer fx:value="1" />
+                                <Integer fx:value="2" />
+                                <Integer fx:value="3" />
+                                <Integer fx:value="4" />
+                                <Integer fx:value="5" />
+                                <Integer fx:value="6" />
+                                <Integer fx:value="7" />
+                                <Integer fx:value="8" />
+                                <Integer fx:value="9" />
+                                <Integer fx:value="10" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                    <ChoiceBox>
+
+                        <styleClass>choice-box-1</styleClass>
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="UP" />
+                                <String fx:value="DOWN" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                </children>
+                <opaqueInsets>
+                    <Insets />
+                </opaqueInsets>
+            </HBox> <HBox alignment="CENTER" spacing="25.0">
+                <children>
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-1" text="UP" />
+                    <Label styleClass="label-2" text="2" />
+                    <ChoiceBox styleClass="choice-box-1">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <Integer fx:value="1" />
+                                <Integer fx:value="2" />
+                                <Integer fx:value="3" />
+                                <Integer fx:value="4" />
+                                <Integer fx:value="5" />
+                                <Integer fx:value="6" />
+                                <Integer fx:value="7" />
+                                <Integer fx:value="8" />
+                                <Integer fx:value="9" />
+                                <Integer fx:value="10" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                    <ChoiceBox>
+
+                        <styleClass>choice-box-1</styleClass>
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="UP" />
+                                <String fx:value="DOWN" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                </children>
+                <opaqueInsets>
+                    <Insets />
+                </opaqueInsets>
+            </HBox> <HBox alignment="CENTER" spacing="25.0">
+                <children>
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-1" text="UP" />
+                    <Label styleClass="label-2" text="2" />
+                    <ChoiceBox styleClass="choice-box-1">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <Integer fx:value="1" />
+                                <Integer fx:value="2" />
+                                <Integer fx:value="3" />
+                                <Integer fx:value="4" />
+                                <Integer fx:value="5" />
+                                <Integer fx:value="6" />
+                                <Integer fx:value="7" />
+                                <Integer fx:value="8" />
+                                <Integer fx:value="9" />
+                                <Integer fx:value="10" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                    <ChoiceBox>
+
+                        <styleClass>choice-box-1</styleClass>
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="UP" />
+                                <String fx:value="DOWN" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                </children>
+                <opaqueInsets>
+                    <Insets />
+                </opaqueInsets>
+            </HBox> <HBox alignment="CENTER" spacing="25.0">
+                <children>
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-1" text="UP" />
+                    <Label styleClass="label-2" text="2" />
+                    <ChoiceBox styleClass="choice-box-1">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <Integer fx:value="1" />
+                                <Integer fx:value="2" />
+                                <Integer fx:value="3" />
+                                <Integer fx:value="4" />
+                                <Integer fx:value="5" />
+                                <Integer fx:value="6" />
+                                <Integer fx:value="7" />
+                                <Integer fx:value="8" />
+                                <Integer fx:value="9" />
+                                <Integer fx:value="10" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                    <ChoiceBox>
+
+                        <styleClass>choice-box-1</styleClass>
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="UP" />
+                                <String fx:value="DOWN" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                </children>
+                <opaqueInsets>
+                    <Insets />
+                </opaqueInsets>
+            </HBox> <HBox alignment="CENTER" spacing="25.0">
+                <children>
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-1" text="UP" />
+                    <Label styleClass="label-2" text="2" />
+                    <ChoiceBox styleClass="choice-box-1">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <Integer fx:value="1" />
+                                <Integer fx:value="2" />
+                                <Integer fx:value="3" />
+                                <Integer fx:value="4" />
+                                <Integer fx:value="5" />
+                                <Integer fx:value="6" />
+                                <Integer fx:value="7" />
+                                <Integer fx:value="8" />
+                                <Integer fx:value="9" />
+                                <Integer fx:value="10" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                    <ChoiceBox>
+
+                        <styleClass>choice-box-1</styleClass>
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="UP" />
+                                <String fx:value="DOWN" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                </children>
+                <opaqueInsets>
+                    <Insets />
+                </opaqueInsets>
+            </HBox> <HBox alignment="CENTER" spacing="25.0">
+                <children>
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-1" text="UP" />
+                    <Label styleClass="label-2" text="2" />
+                    <ChoiceBox styleClass="choice-box-1">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <Integer fx:value="1" />
+                                <Integer fx:value="2" />
+                                <Integer fx:value="3" />
+                                <Integer fx:value="4" />
+                                <Integer fx:value="5" />
+                                <Integer fx:value="6" />
+                                <Integer fx:value="7" />
+                                <Integer fx:value="8" />
+                                <Integer fx:value="9" />
+                                <Integer fx:value="10" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                    <ChoiceBox>
+
+                        <styleClass>choice-box-1</styleClass>
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="UP" />
+                                <String fx:value="DOWN" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                </children>
+                <opaqueInsets>
+                    <Insets />
+                </opaqueInsets>
+            </HBox> <HBox alignment="CENTER" spacing="25.0">
+                <children>
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-1" text="UP" />
+                    <Label styleClass="label-2" text="2" />
+                    <ChoiceBox styleClass="choice-box-1">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <Integer fx:value="1" />
+                                <Integer fx:value="2" />
+                                <Integer fx:value="3" />
+                                <Integer fx:value="4" />
+                                <Integer fx:value="5" />
+                                <Integer fx:value="6" />
+                                <Integer fx:value="7" />
+                                <Integer fx:value="8" />
+                                <Integer fx:value="9" />
+                                <Integer fx:value="10" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                    <ChoiceBox>
+
+                        <styleClass>choice-box-1</styleClass>
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="UP" />
+                                <String fx:value="DOWN" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                </children>
+                <opaqueInsets>
+                    <Insets />
+                </opaqueInsets>
+            </HBox> <HBox alignment="CENTER" spacing="25.0">
+                <children>
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-1" text="UP" />
+                    <Label styleClass="label-2" text="2" />
+                    <ChoiceBox styleClass="choice-box-1">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <Integer fx:value="1" />
+                                <Integer fx:value="2" />
+                                <Integer fx:value="3" />
+                                <Integer fx:value="4" />
+                                <Integer fx:value="5" />
+                                <Integer fx:value="6" />
+                                <Integer fx:value="7" />
+                                <Integer fx:value="8" />
+                                <Integer fx:value="9" />
+                                <Integer fx:value="10" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                    <ChoiceBox>
+
+                        <styleClass>choice-box-1</styleClass>
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="UP" />
+                                <String fx:value="DOWN" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                </children>
+                <opaqueInsets>
+                    <Insets />
+                </opaqueInsets>
+            </HBox> <HBox alignment="CENTER" spacing="25.0">
+                <children>
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-1" text="UP" />
+                    <Label styleClass="label-2" text="2" />
+                    <ChoiceBox styleClass="choice-box-1">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <Integer fx:value="1" />
+                                <Integer fx:value="2" />
+                                <Integer fx:value="3" />
+                                <Integer fx:value="4" />
+                                <Integer fx:value="5" />
+                                <Integer fx:value="6" />
+                                <Integer fx:value="7" />
+                                <Integer fx:value="8" />
+                                <Integer fx:value="9" />
+                                <Integer fx:value="10" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                    <ChoiceBox>
+
+                        <styleClass>choice-box-1</styleClass>
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="UP" />
+                                <String fx:value="DOWN" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                </children>
+                <opaqueInsets>
+                    <Insets />
+                </opaqueInsets>
+            </HBox> <HBox alignment="CENTER" spacing="25.0">
+                <children>
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-2" text="1" />
+                    <Label styleClass="label-1" text="UP" />
+                    <Label styleClass="label-2" text="2" />
+                    <ChoiceBox styleClass="choice-box-1">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <Integer fx:value="1" />
+                                <Integer fx:value="2" />
+                                <Integer fx:value="3" />
+                                <Integer fx:value="4" />
+                                <Integer fx:value="5" />
+                                <Integer fx:value="6" />
+                                <Integer fx:value="7" />
+                                <Integer fx:value="8" />
+                                <Integer fx:value="9" />
+                                <Integer fx:value="10" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                    <ChoiceBox>
+
+                        <styleClass>choice-box-1</styleClass>
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="UP" />
+                                <String fx:value="DOWN" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" styleClass="button-1" text="Confirm" />
+                </children>
+                <opaqueInsets>
+                    <Insets />
+                </opaqueInsets>
+            </HBox>
+
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

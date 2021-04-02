@@ -1,0 +1,42 @@
+.hBox-1 {
+    /*-fx-box-shadow: 0px 0px 9px -1px rgba(0,0,0,0.83);*/
+
+    /* // -fx-background-color: transparent;*/
+    /*  -fx-border-bottom: black solid 1px*/
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-width: 3;
+    -fx-border-color: black;
+
+}
+
+.label-1 {
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+    -fx-min-width: 95;
+    -fx-min-height: 20;
+    -fx-font-size: 11pt;
+}
+
+.label-2 {
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+    -fx-min-width: 95;
+    -fx-font-size: 25pt;
+}
+
+.button-1 {
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+    -fx-min-width: 95;
+    -fx-font-size: 12pt;
+}
+
+.choice-box-1 {
+    -fx-alignment: center;
+    -fx-text-alignment: right;
+    -fx-min-width: 95;
+    -fx-font-size: 12pt;
+
+}
+
