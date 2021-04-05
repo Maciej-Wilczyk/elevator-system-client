@@ -13,12 +13,12 @@ public class Main extends Application {
     private static final int HEIGHT = 900;
 
     @Override
-    public void start(Stage stage) throws Exception {
-        window = stage;
-        window.setTitle("Elevator System");
-        Parent root = FXMLLoader.load(getClass().getResource("fxml/window.fxml"));
-        window.setScene(new Scene(root, WIDTH, HEIGHT));
-        window.show();
+        public void start(Stage stage) throws Exception {
+            window = stage;
+            window.setTitle("Elevator System");
+            Parent root = FXMLLoader.load(getClass().getResource("fxml/window.fxml"));
+            window.setScene(new Scene(root, WIDTH, HEIGHT));
+            window.show();
     }
 
     public static void main(String[] args) {
