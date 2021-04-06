@@ -10,14 +10,9 @@ public class StatusDto {
     private int currentFloor;
     private int nearestTargetFloor;
     private Direction direction;
+    private boolean ifReachedTargetFloor;
 
     public StatusDto() {
     }
 
-    public StatusDto(int elevatorId, int currentFloor, int nearestTargetFloor, Direction direction) {
-        this.elevatorId = elevatorId;
-        this.currentFloor = currentFloor;
-        this.nearestTargetFloor = nearestTargetFloor;
-        this.direction = direction;
-    }
 }

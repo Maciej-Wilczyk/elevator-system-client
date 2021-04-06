@@ -6,14 +6,13 @@
     -fx-border-style: hidden hidden solid hidden;
     -fx-border-width: 3;
     -fx-border-color: black;
-
 }
 
 .label-1 {
     -fx-font-weight: bold;
     -fx-alignment: center;
     -fx-text-alignment: center;
-    -fx-min-width: 95;
+    -fx-min-width: 120;
     -fx-min-height: 20;
     -fx-font-size: 11pt;
 }
@@ -21,7 +20,7 @@
 .label-2 {
     -fx-alignment: center;
     -fx-text-alignment: center;
-    -fx-min-width: 95;
+    -fx-min-width: 120;
     -fx-font-size: 25pt;
 }
 

@@ -16,8 +16,11 @@ public class Main extends Application {
         public void start(Stage stage) throws Exception {
             window = stage;
             window.setTitle("Elevator System");
+            window.setTitle("Elevator System");
             Parent root = FXMLLoader.load(getClass().getResource("fxml/window.fxml"));
-            window.setScene(new Scene(root, WIDTH, HEIGHT));
+            Scene scene = new Scene(root,WIDTH,HEIGHT);
+            scene.getStylesheets().add(getClass().getResource("css/window.css").toExternalForm());
+            window.setScene(scene);
             window.show();
     }
 
