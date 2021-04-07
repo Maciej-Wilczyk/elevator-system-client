@@ -2,6 +2,7 @@ package controller;
 
 import dto.DataForPickupDto;
 import dto.DataForSelectDto;
+import dto.ElevatorSystemConfigDto;
 import dto.StatusDto;
 import enums.Direction;
 import enums.NoTargetFloor;
@@ -12,29 +13,33 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import rest.Rest;
 import rest.RestImpl;
 
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WindowController implements Initializable {
 
     private Rest rest;
 
-    @FXML
-    VBox vBox;
+    private int numberOfFloors = 10, numberOfElevators = 0;
+
+   // private VBox vBox1 = new VBox();
 
     @FXML
-    AnchorPane anchorPane;
+    private VBox vBox;
+
+    private boolean flag;
+
+    @FXML
+    private AnchorPane anchorPane;
 
     public WindowController() {
         rest = new RestImpl();
@@ -42,10 +47,28 @@ public class WindowController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setAmountOfElevatorsAndFloors();
-        setStatus();
-        selectEvent();
-        pickupEvent();
+
+        if(!isElevatorSystemConfigured()) {
+            restartSettings();
+        } else {
+            setAmountOfElevatorsAndFloors();
+            selectEvent();
+            pickupEvent();
+            setStatus();
+        }
+    }
+
+
+
+    public boolean isElevatorSystemConfigured(){
+       var res = rest.getNumberOfElevators((result) -> { });
+        if(res.getNumberOfElevators() == -1){
+            return false;
+        }else {
+            numberOfElevators = res.getNumberOfElevators();
+            numberOfFloors = res.getNumberOfFloors();
+            return true;
+        }
     }
 
     private void setStatus() {
@@ -63,54 +86,66 @@ public class WindowController implements Initializable {
 
     private void setAmountOfElevatorsAndFloors() {
         HBox hBox;
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < numberOfElevators; i++) {
             hBox = new HBox();
             hBox.setSpacing(25);
             hBox.setAlignment(Pos.CENTER);
             Label elevatorIdLabel = new Label(String.valueOf(i));
             elevatorIdLabel.getStyleClass().add("label-2");
-            Label currentFloorLabel= new Label("1");
+            Label currentFloorLabel = new Label("1");
             currentFloorLabel.getStyleClass().add("label-2");
             Label directionLabel = new Label("-");
             directionLabel.getStyleClass().add("label-2");
             Label targetFloorLabel = new Label("-");
             targetFloorLabel.getStyleClass().add("label-2");
             ChoiceBox<Integer> selectFloorChoiceBox = new ChoiceBox<>();
-            selectFloorChoiceBox.setItems(numberOfFloorsList(10));
+            selectFloorChoiceBox.setItems(numberOfFloorsList(numberOfFloors));
             selectFloorChoiceBox.getStyleClass().add("choice-box-1");
             Button selectConfirmButton = new Button("Confirm");
             selectConfirmButton.getStyleClass().add("button-1");
             ChoiceBox<Integer> pickupFloorChoiceBox = new ChoiceBox<>();
-            pickupFloorChoiceBox.setItems(numberOfFloorsList(10));
+            pickupFloorChoiceBox.setItems(numberOfFloorsList(numberOfFloors));
             pickupFloorChoiceBox.getStyleClass().add("choice-box-1");
             ChoiceBox<Direction> pickupFloorButtonChoiceBox = new ChoiceBox<>();
-            pickupFloorButtonChoiceBox.getItems().addAll(Direction.values());
+            pickupFloorButtonChoiceBox.getItems().addAll(Direction.UP,Direction.DOWN);
             pickupFloorButtonChoiceBox.getStyleClass().add("choice-box-1");
             Button pickupConfirmButton = new Button("Confirm");
             pickupConfirmButton.getStyleClass().add("button-1");
-            hBox.getChildren().addAll(elevatorIdLabel,currentFloorLabel,directionLabel,targetFloorLabel,selectFloorChoiceBox,selectConfirmButton,pickupFloorChoiceBox,pickupFloorButtonChoiceBox,pickupConfirmButton);
+            hBox.getChildren().addAll(elevatorIdLabel, currentFloorLabel, directionLabel, targetFloorLabel, selectFloorChoiceBox, selectConfirmButton, pickupFloorChoiceBox, pickupFloorButtonChoiceBox, pickupConfirmButton);
             vBox.getChildren().add(hBox);
+            //group.getChildren().add(hBox);
         }
+        //vBox.getChildren().add(group);
         hBox = new HBox();
         hBox.setSpacing(25);
         hBox.setAlignment(Pos.CENTER);
         hBox.setMinHeight(15);
         vBox.getChildren().add(hBox);
+
         hBox = new HBox();
         hBox.setSpacing(25);
         hBox.setAlignment(Pos.CENTER);
         Button stepButton = new Button("Step");
         stepButton.getStyleClass().add("button-1");
-        stepButton.setOnMouseClicked( e ->{
+        stepButton.setOnMouseClicked(e -> {
             makeStep();
         });
+        Button restartSettings = new Button("Restart Settings");
+        restartSettings.getStyleClass().add("button-1");
+        restartSettings.setOnMouseClicked(e -> {
+            restartSettings();
+        });
+
         hBox.getChildren().add(stepButton);
+        hBox.getChildren().add(restartSettings);
         vBox.getChildren().add(hBox);
+
+
     }
 
-    private ObservableList<Integer> numberOfFloorsList(int numberOfFloors){
+    private ObservableList<Integer> numberOfFloorsList(int numberOfFloors) {
         ObservableList<Integer> list = FXCollections.observableArrayList();
-        for(int i = 1; i <= numberOfFloors; i ++){
+        for (int i = 1; i <= numberOfFloors; i++) {
             list.add(i);
         }
         return list;
@@ -118,15 +153,25 @@ public class WindowController implements Initializable {
 
 
     private void setLabels(HBox hBox, List<StatusDto> list, int i) {
-        Label label;
-        ((Label) hBox.getChildren().get(0)).setText(String.valueOf(list.get(i).getElevatorId()));
-        ((Label) hBox.getChildren().get(1)).setText(String.valueOf(list.get(i).getCurrentFloor()));
-        ((Label) hBox.getChildren().get(2)).setText(String.valueOf(list.get(i).getDirection().getDirectionAsString()));
-        label = (Label) hBox.getChildren().get(3);
+        Label elevatorIdLabel, currentFloorLabel, directionLabel, nearestTargetFloorLabel;
+        elevatorIdLabel = ((Label) hBox.getChildren().get(0));
+        elevatorIdLabel.setText(String.valueOf(list.get(i).getElevatorId()));
+        currentFloorLabel = ((Label) hBox.getChildren().get(1));
+        currentFloorLabel.setText(String.valueOf(list.get(i).getCurrentFloor()));
+        directionLabel = ((Label) hBox.getChildren().get(2));
+        directionLabel.setText(String.valueOf(list.get(i).getDirection().getDirectionAsString()));
+        nearestTargetFloorLabel = (Label) hBox.getChildren().get(3);
         if (list.get(i).getNearestTargetFloor() == NoTargetFloor.NO_TARGET_FLOOR.noTargetFloorAsInt) {
-            label.setText(NoTargetFloor.NO_TARGET_FLOOR.noTargetFloorAsString);
+            nearestTargetFloorLabel.setText(NoTargetFloor.NO_TARGET_FLOOR.noTargetFloorAsString);
         } else {
-            label.setText(String.valueOf(list.get(i).getNearestTargetFloor()));
+            nearestTargetFloorLabel.setText(String.valueOf(list.get(i).getNearestTargetFloor()));
+        }
+        if (list.get(i).isIfReachedTargetFloor()) {
+            currentFloorLabel.setTextFill(Color.GREEN);
+            nearestTargetFloorLabel.setTextFill(Color.GREEN);
+        } else {
+            currentFloorLabel.setTextFill(Color.BLACK);
+            nearestTargetFloorLabel.setTextFill(Color.BLACK);
         }
     }
 
@@ -134,9 +179,49 @@ public class WindowController implements Initializable {
         rest.step((result) -> {
         });
         setStatus();
+    }
+
+    public void restartSettings(){
+        ElevatorSystemConfigDto elevatorSystemConfigDto = new ElevatorSystemConfigDto();
+        int resultElevators = getNumberOfElevatorsDialogResult();
+        int resultFloors = getNumberOfFloorsDialogResult();
+        elevatorSystemConfigDto.setNumberOfElevators(resultElevators);
+        elevatorSystemConfigDto.setNumberOfFloors(resultFloors);
+        numberOfElevators = resultElevators;
+        rest.setElevatorSystemConfig(elevatorSystemConfigDto);
+        int size = vBox.getChildren().size();
+        for(int i = 1; i < size; i++){
+            vBox.getChildren().remove(1);
+        }
+        setAmountOfElevatorsAndFloors();
+        selectEvent();
+        pickupEvent();
+        setStatus();
+    }
+
+    public int getNumberOfElevatorsDialogResult(){
+        List<Integer> choices = new ArrayList<>();
+        for(int i = 1; i <= 16; i++ ){
+            choices.add(i);
+        }
+        ChoiceDialog<Integer> dialog = new ChoiceDialog<>(1,choices);
+        dialog.setTitle("");
+        dialog.setContentText("Please enter number of elevator:");
+        dialog.setGraphic(null);
+        Optional<Integer> result = dialog.showAndWait();
+        return result.orElseThrow();
 
     }
 
+    public int getNumberOfFloorsDialogResult(){
+        TextInputDialog dialog = new TextInputDialog("10");
+        dialog.setTitle("");
+        dialog.setContentText("Please enter number of floors:");
+        dialog.setGraphic(null);
+        Optional<String> result = dialog.showAndWait();
+        numberOfFloors = Integer.parseInt(result.orElseThrow());
+        return numberOfFloors;
+    }
 
     public void selectEvent() {
         for (Node i : vBox.getChildren()) {
