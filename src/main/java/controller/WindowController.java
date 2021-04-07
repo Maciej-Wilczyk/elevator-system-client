@@ -31,12 +31,16 @@ public class WindowController implements Initializable {
 
     private int numberOfFloors = 10, numberOfElevators = 0;
 
-   // private VBox vBox1 = new VBox();
-
     @FXML
     private VBox vBox;
 
-    private boolean flag;
+    public static boolean realTimeFlag = false;
+
+    private Button stepButton;
+
+    private ToggleGroup group;
+
+    private  RadioButton stepByStep, realTime;
 
     @FXML
     private AnchorPane anchorPane;
@@ -48,7 +52,7 @@ public class WindowController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        if(!isElevatorSystemConfigured()) {
+        if (!isElevatorSystemConfigured()) {
             restartSettings();
         } else {
             setAmountOfElevatorsAndFloors();
@@ -56,15 +60,32 @@ public class WindowController implements Initializable {
             pickupEvent();
             setStatus();
         }
+        live();
     }
 
 
+    public void live() {
+        Thread t = new Thread(() -> {
+            while (realTimeFlag) {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                makeStep();
+            }
+        });
+        t.setDaemon(true);
+        t.start();
 
-    public boolean isElevatorSystemConfigured(){
-       var res = rest.getNumberOfElevators((result) -> { });
-        if(res.getNumberOfElevators() == -1){
+    }
+
+    public boolean isElevatorSystemConfigured() {
+        var res = rest.getNumberOfElevators((result) -> {
+        });
+        if (res.getNumberOfElevators() == -1) {
             return false;
-        }else {
+        } else {
             numberOfElevators = res.getNumberOfElevators();
             numberOfFloors = res.getNumberOfFloors();
             return true;
@@ -107,7 +128,7 @@ public class WindowController implements Initializable {
             pickupFloorChoiceBox.setItems(numberOfFloorsList(numberOfFloors));
             pickupFloorChoiceBox.getStyleClass().add("choice-box-1");
             ChoiceBox<Direction> pickupFloorButtonChoiceBox = new ChoiceBox<>();
-            pickupFloorButtonChoiceBox.getItems().addAll(Direction.UP,Direction.DOWN);
+            pickupFloorButtonChoiceBox.getItems().addAll(Direction.UP, Direction.DOWN);
             pickupFloorButtonChoiceBox.getStyleClass().add("choice-box-1");
             Button pickupConfirmButton = new Button("Confirm");
             pickupConfirmButton.getStyleClass().add("button-1");
@@ -121,11 +142,10 @@ public class WindowController implements Initializable {
         hBox.setAlignment(Pos.CENTER);
         hBox.setMinHeight(15);
         vBox.getChildren().add(hBox);
-
         hBox = new HBox();
         hBox.setSpacing(25);
         hBox.setAlignment(Pos.CENTER);
-        Button stepButton = new Button("Step");
+        stepButton = new Button("Step");
         stepButton.getStyleClass().add("button-1");
         stepButton.setOnMouseClicked(e -> {
             makeStep();
@@ -135,9 +155,29 @@ public class WindowController implements Initializable {
         restartSettings.setOnMouseClicked(e -> {
             restartSettings();
         });
+        group = new ToggleGroup();
 
-        hBox.getChildren().add(stepButton);
-        hBox.getChildren().add(restartSettings);
+        stepByStep = new RadioButton("Step by Step");
+        stepByStep.setToggleGroup(group);
+        stepByStep.setSelected(true);
+        stepByStep.getStyleClass().add("radio-button");
+
+        realTime = new RadioButton("Real time");
+        realTime.setToggleGroup(group);
+        realTime.getStyleClass().add("radio-button");
+
+        group.selectedToggleProperty().addListener((ov, old_toggle, new_toggle) -> {
+            if (stepByStep == group.getSelectedToggle()) {
+                realTimeFlag = false;
+                stepButton.setDisable(false);
+            }
+            else if (realTime == group.getSelectedToggle()) {
+                realTimeFlag = true;
+                live();
+            }
+        });
+
+        hBox.getChildren().addAll(stepButton,restartSettings,stepByStep,realTime);
         vBox.getChildren().add(hBox);
 
 
@@ -176,12 +216,11 @@ public class WindowController implements Initializable {
     }
 
     public void makeStep() {
-        rest.step((result) -> {
-        });
+        rest.step();
         setStatus();
     }
 
-    public void restartSettings(){
+    public void restartSettings() {
         ElevatorSystemConfigDto elevatorSystemConfigDto = new ElevatorSystemConfigDto();
         int resultElevators = getNumberOfElevatorsDialogResult();
         int resultFloors = getNumberOfFloorsDialogResult();
@@ -190,7 +229,7 @@ public class WindowController implements Initializable {
         numberOfElevators = resultElevators;
         rest.setElevatorSystemConfig(elevatorSystemConfigDto);
         int size = vBox.getChildren().size();
-        for(int i = 1; i < size; i++){
+        for (int i = 1; i < size; i++) {
             vBox.getChildren().remove(1);
         }
         setAmountOfElevatorsAndFloors();
@@ -199,21 +238,20 @@ public class WindowController implements Initializable {
         setStatus();
     }
 
-    public int getNumberOfElevatorsDialogResult(){
+    public int getNumberOfElevatorsDialogResult() {
         List<Integer> choices = new ArrayList<>();
-        for(int i = 1; i <= 16; i++ ){
+        for (int i = 1; i <= 16; i++) {
             choices.add(i);
         }
-        ChoiceDialog<Integer> dialog = new ChoiceDialog<>(1,choices);
+        ChoiceDialog<Integer> dialog = new ChoiceDialog<>(1, choices);
         dialog.setTitle("");
         dialog.setContentText("Please enter number of elevator:");
         dialog.setGraphic(null);
         Optional<Integer> result = dialog.showAndWait();
         return result.orElseThrow();
-
     }
 
-    public int getNumberOfFloorsDialogResult(){
+    public int getNumberOfFloorsDialogResult() {
         TextInputDialog dialog = new TextInputDialog("10");
         dialog.setTitle("");
         dialog.setContentText("Please enter number of floors:");
@@ -242,7 +280,6 @@ public class WindowController implements Initializable {
                     choiceBox.setValue(null);
                     rest.select(dataForSelectDto, (result) -> {
                     });
-
                 });
             }
         }
@@ -263,13 +300,11 @@ public class WindowController implements Initializable {
 
             if (isCorrectHbox(hBox)) {
                 getPickupConfirmButton(hBox).setOnMouseClicked(e -> {
-
                     ChoiceBox<Integer> pickupFloorChoiceBox = getPickupFloorChoiceBox(hBox);
                     ChoiceBox<Direction> pickupButtonChoiceBox = getPickupButtonChoiceBox(hBox);
-                    if (pickupFloorChoiceBox.getValue() == null || pickupButtonChoiceBox == null) {
+                    if (pickupFloorChoiceBox.getValue() == null || pickupButtonChoiceBox.getValue() == null) {
                         return;
                     }
-
                     DataForPickupDto dataForPickupDto = new DataForPickupDto();
                     dataForPickupDto.setElevatorId(getElevatorId(hBox));
                     dataForPickupDto.setRequestedFloor(pickupFloorChoiceBox.getValue());
