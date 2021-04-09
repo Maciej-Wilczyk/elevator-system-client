@@ -25,6 +25,6 @@ In the console go to the project folder and run the command: <br /> mvn javafx:r
 ## Features
 * GUI implementation:
 * comunication with server
-  
+ <img src="images/system.png">
 ## Basic overview
-![](images/system.png)
+
