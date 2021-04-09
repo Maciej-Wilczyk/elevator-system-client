@@ -27,3 +27,4 @@ In the console go to the project folder and run the command: <br /> mvn javafx:r
 * comunication with server
   
 ## Basic overview
+![](images/system.png)
