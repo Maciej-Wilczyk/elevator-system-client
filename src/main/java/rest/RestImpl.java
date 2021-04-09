@@ -1,42 +1,49 @@
 package rest;
 
+import controller.WindowController;
 import dto.DataForPickupDto;
 import dto.DataForSelectDto;
 import dto.ElevatorSystemConfigDto;
 import dto.StatusDto;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.ConnectException;
+import java.rmi.ConnectIOException;
 import java.util.List;
 
 public class RestImpl implements Rest {
 
-    private static final String STEP_URL = "http://localhost:8080/step";
 
-    private static final String STATUS_URL = "http://localhost:8080/status";
+    private final static  String STEP_URL = "http://localhost:8080/step";
 
-    private static final String SELECT_URL = "http://localhost:8080/select";
+    private final static  String STATUS_URL = "http://localhost:8080/status";
 
-    private static final String PICKUP_URL = "http://localhost:8080/pickup";
+    private final static  String SELECT_URL = "http://localhost:8080/select";
 
-    private static final String SAVE_URL = "http://localhost:8080/save";
+    private final static  String PICKUP_URL = "http://localhost:8080/pickup";
 
-    private static final String NUMBER_OF_ELEVATORS_AND_FLOORS_URL = "http://localhost:8080/number";
+    private final static  String SAVE_URL = "http://localhost:8080/save";
+
+    private final static  String NUMBER_OF_ELEVATORS_AND_FLOORS_URL = "http://localhost:8080/number";
 
     private Thread stepThread, setElevatorSystemConfigThread;
 
     private final RestTemplate restTemplate;
+
 
     public RestImpl() {
         restTemplate = new RestTemplate();
     }
 
     @Override
-    public void step(RestResultHandler restResultHandler) {
-
+    public void step() {
         Runnable stepTask = () -> {
-            processStep(restResultHandler);
+            processStep();
         };
         stepThread = new Thread(stepTask);
         stepThread.setDaemon(true);
@@ -44,10 +51,13 @@ public class RestImpl implements Rest {
     }
 
 
-    private void processStep(RestResultHandler restResultHandler) {
-        ResponseEntity<?> responseEntity = restTemplate.postForEntity(STEP_URL, null, null);
-        restResultHandler.handle(responseEntity);
+    private void processStep() {
+        try {
+            restTemplate.postForEntity(STEP_URL, null, null);
+        } catch (IllegalStateException | ResourceAccessException e){
+            serverError();
 
+        }
     }
 
     @Override
@@ -55,6 +65,7 @@ public class RestImpl implements Rest {
 
         Runnable statusTask = () -> {
             processStatus(restResultHandler);
+
         };
         Thread statusThread = new Thread(statusTask);
         statusThread.setDaemon(true);
@@ -73,39 +84,55 @@ public class RestImpl implements Rest {
 
 
     private void processStatus(RestResultHandler restResultHandler) {
-        ResponseEntity<?> responseEntity = restTemplate.getForEntity(STATUS_URL, StatusDto[].class);
-        restResultHandler.handle(responseEntity);
+        ResponseEntity<?> responseEntity = null;
+        try {
+             responseEntity = restTemplate.getForEntity(STATUS_URL, StatusDto[].class);
+            restResultHandler.handle(responseEntity);
+        }catch (IllegalStateException | ResourceAccessException e ){
+            serverError();
+
+        }
+
     }
 
+
+
     @Override
-    public void pickup(DataForPickupDto dataForPickupDto, RestResultHandler restResultHandler) {
+    public void pickup(List<DataForPickupDto> list, RestResultHandler restResultHandler) {
         Runnable pickupTask = () -> {
-            processPickup(dataForPickupDto, restResultHandler);
+            processPickup(list, restResultHandler);
         };
         Thread pickupThread = new Thread(pickupTask);
         pickupThread.setDaemon(true);
         pickupThread.start();
     }
 
-    private void processPickup(DataForPickupDto dataForPickupDto, RestResultHandler restResultHandler) {
-        ResponseEntity<?> responseEntity = restTemplate.postForEntity(PICKUP_URL, dataForPickupDto, null);
-        ;
-        restResultHandler.handle(responseEntity);
+    private void processPickup(List<DataForPickupDto> list, RestResultHandler restResultHandler) {
+        try {
+            ResponseEntity<?> responseEntity = restTemplate.postForEntity(PICKUP_URL, list, null);
+            restResultHandler.handle(responseEntity);
+        } catch (IllegalStateException | ResourceAccessException e){
+            serverError();
+        }
     }
 
     @Override
-    public void select(DataForSelectDto dataForSelectDto, RestResultHandler restResultHandler) {
+    public void select(List<DataForSelectDto> list, RestResultHandler restResultHandler) {
         Runnable selectTask = () -> {
-            processSelect(dataForSelectDto, restResultHandler);
+            processSelect(list, restResultHandler);
         };
         Thread selectThread = new Thread(selectTask);
         selectThread.setDaemon(true);
         selectThread.start();
     }
 
-    private void processSelect(DataForSelectDto dataForSelectDto, RestResultHandler restResultHandler) {
-        ResponseEntity<?> responseEntity = restTemplate.postForEntity(SELECT_URL, dataForSelectDto, null);
-        restResultHandler.handle(responseEntity);
+    private void processSelect(List<DataForSelectDto> list, RestResultHandler restResultHandler) {
+        try {
+            ResponseEntity<?> responseEntity = restTemplate.postForEntity(SELECT_URL, list, null);
+            restResultHandler.handle(responseEntity);
+        } catch (IllegalStateException | ResourceAccessException e){
+            serverError();
+        }
     }
 
     @Override
@@ -118,43 +145,59 @@ public class RestImpl implements Rest {
         saveThread.start();
     }
 
-    @Override
-    public void setNumberOfElevators(int number) {
-        ResponseEntity<?> responseEntity = restTemplate.postForEntity(NUMBER_OF_ELEVATORS_AND_FLOORS_URL, number, null);
-    }
-
     private void processSave(boolean save, RestResultHandler restResultHandler) {
-        ResponseEntity<?> responseEntity = restTemplate.postForEntity(SAVE_URL, save, null);
-        restResultHandler.handle(responseEntity);
+        try {
+            ResponseEntity<?> responseEntity = restTemplate.postForEntity(SAVE_URL, save, null);restResultHandler.handle(responseEntity);
+
+        } catch (IllegalStateException | ResourceAccessException e) {
+         serverError();
+        }
     }
 
     @Override
-    public ElevatorSystemConfigDto getNumberOfElevators(RestResultHandler restResultHandler) {
-    //    Runnable statusTask = () -> {
-            return processGetNumberOfElevators(restResultHandler);
-       // };
-//        Thread thread = new Thread(statusTask);
-//        thread.setDaemon(true);
-//        thread.start();
+    public ElevatorSystemConfigDto getNumberOfElevators() {
+            return processGetNumberOfElevators();
     }
 
 
-    private ElevatorSystemConfigDto processGetNumberOfElevators(RestResultHandler restResultHandler) {
-        ResponseEntity<?> responseEntity = restTemplate.getForEntity(NUMBER_OF_ELEVATORS_AND_FLOORS_URL, ElevatorSystemConfigDto.class);
-        restResultHandler.handle(responseEntity);
-        return (ElevatorSystemConfigDto)responseEntity.getBody();
+
+    private ElevatorSystemConfigDto processGetNumberOfElevators() {
+        try {
+            ResponseEntity<?> responseEntity = restTemplate.getForEntity(NUMBER_OF_ELEVATORS_AND_FLOORS_URL, ElevatorSystemConfigDto.class);
+
+            return (ElevatorSystemConfigDto) responseEntity.getBody();
+        } catch (ResourceAccessException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Connection error");
+            alert.setContentText("Please, start server");
+            alert.showAndWait();
+            System.exit(0);
+        }
+        return null;
     }
 
     @Override
     public void setElevatorSystemConfig(ElevatorSystemConfigDto elevatorSystemConfigDto) {
-        Runnable selectTask = () -> {
-            ResponseEntity<?> responseEntity = restTemplate.postForEntity(NUMBER_OF_ELEVATORS_AND_FLOORS_URL, elevatorSystemConfigDto, null);
+        Runnable setElevatorSystemConfigTask = () -> {
+            try {
+                ResponseEntity<?> responseEntity = restTemplate.postForEntity(NUMBER_OF_ELEVATORS_AND_FLOORS_URL, elevatorSystemConfigDto, null);
+            } catch (IllegalStateException | ResourceAccessException e){
+                serverError();
+            }
         };
-        setElevatorSystemConfigThread = new Thread(selectTask);
+        setElevatorSystemConfigThread = new Thread(setElevatorSystemConfigTask);
         setElevatorSystemConfigThread.setDaemon(true);
         setElevatorSystemConfigThread.start();
     }
 
+    private void serverError() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Server Connection Error");
+            alert.setContentText("");
+            alert.showAndWait();
+        });
+    }
 
 }
 

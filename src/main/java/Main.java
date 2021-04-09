@@ -1,5 +1,6 @@
 
 
+import controller.WindowController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -37,6 +38,7 @@ public class Main extends Application {
 
 
     public void close() {
+        WindowController.realTimeFlag = false;
         rest = new RestImpl();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("");
@@ -53,9 +55,7 @@ public class Main extends Application {
             rest.save(false,(r) ->{});
             window.close();
         }
-
     }
-
 
     public static void main(String[] args) {
         launch(args);

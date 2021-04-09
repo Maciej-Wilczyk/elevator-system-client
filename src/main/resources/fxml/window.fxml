@@ -15,10 +15,8 @@
                         <Label styleClass="label-1" text="direction" />
                         <Label styleClass="label-1" text="Target Floor" />
                         <Label styleClass="label-1" text="Select Floor" />
-                        <Label styleClass="label-1" text="Confirm" />
                         <Label styleClass="label-1" text="Pickup Floor" />
                         <Label styleClass="label-1" text="Pickup Button" />
-                        <Label styleClass="label-1" text="Confirm" />
                     </children>
                     <opaqueInsets>
                         <Insets />

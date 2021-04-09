@@ -23,14 +23,19 @@
 .button-1 {
     -fx-alignment: center;
     -fx-text-alignment: center;
-    -fx-min-width: 95;
+    -fx-min-width: 120;
+    -fx-font-size: 12pt;
+}
+
+.radio-button {
+    -fx-min-width: 120;
     -fx-font-size: 12pt;
 }
 
 .choice-box-1 {
     -fx-alignment: center;
     -fx-text-alignment: right;
-    -fx-min-width: 95;
+    -fx-min-width: 120;
     -fx-font-size: 12pt;
 }
 

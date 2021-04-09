@@ -5,20 +5,21 @@ import dto.DataForSelectDto;
 import dto.ElevatorSystemConfigDto;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 public interface Rest {
-    void step(RestResultHandler restResultHandler);
+
+    void step();
 
     void status(RestResultHandler restResultHandler);
 
-    void pickup(DataForPickupDto dataForPickupDto, RestResultHandler restResultHandler);
+    void pickup(List<DataForPickupDto> list, RestResultHandler restResultHandler);
 
-    void select(DataForSelectDto dataForSelectDto, RestResultHandler restResultHandler);
+    void select(List<DataForSelectDto> list, RestResultHandler restResultHandler);
 
     void save(boolean save,RestResultHandler restResultHandler);
 
-    void setNumberOfElevators(int number);
-
-    ElevatorSystemConfigDto getNumberOfElevators(RestResultHandler restResultHandler);
+    ElevatorSystemConfigDto getNumberOfElevators();
 
     void setElevatorSystemConfig(ElevatorSystemConfigDto elevatorSystemConfigDto);
 }

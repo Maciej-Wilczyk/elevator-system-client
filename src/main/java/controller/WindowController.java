@@ -18,13 +18,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import org.springframework.stereotype.Controller;
 import rest.Rest;
 import rest.RestImpl;
 
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 public class WindowController implements Initializable {
 
     private Rest rest;
@@ -36,14 +36,11 @@ public class WindowController implements Initializable {
 
     public static boolean realTimeFlag = false;
 
-    private Button stepButton;
+    private Button stepButton, confirmButton;
 
     private ToggleGroup group;
 
     private  RadioButton stepByStep, realTime;
-
-    @FXML
-    private AnchorPane anchorPane;
 
     public WindowController() {
         rest = new RestImpl();
@@ -51,13 +48,11 @@ public class WindowController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+      //  localOrAWSHost();
         if (!isElevatorSystemConfigured()) {
             restartSettings();
         } else {
             setAmountOfElevatorsAndFloors();
-            selectEvent();
-            pickupEvent();
             setStatus();
         }
         live();
@@ -68,7 +63,7 @@ public class WindowController implements Initializable {
         Thread t = new Thread(() -> {
             while (realTimeFlag) {
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(1500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -81,8 +76,7 @@ public class WindowController implements Initializable {
     }
 
     public boolean isElevatorSystemConfigured() {
-        var res = rest.getNumberOfElevators((result) -> {
-        });
+        var res = rest.getNumberOfElevators();
         if (res.getNumberOfElevators() == -1) {
             return false;
         } else {
@@ -95,6 +89,7 @@ public class WindowController implements Initializable {
     private void setStatus() {
         rest.status((result) -> {
             Platform.runLater(() -> {
+               // if (result.)
                 HBox hBox;
                 List<StatusDto> list = Arrays.asList((StatusDto[]) result.getBody());
                 for (int i = 0; i < list.size(); i++) {
@@ -105,80 +100,77 @@ public class WindowController implements Initializable {
         });
     }
 
-    private void setAmountOfElevatorsAndFloors() {
-        HBox hBox;
-        for (int i = 0; i < numberOfElevators; i++) {
+           private void setAmountOfElevatorsAndFloors() {
+            HBox hBox;
+            for (int i = 0; i < numberOfElevators; i++) {
+                hBox = new HBox();
+                hBox.setSpacing(25);
+                hBox.setAlignment(Pos.CENTER);
+                Label elevatorIdLabel = new Label(String.valueOf(i));
+                elevatorIdLabel.getStyleClass().add("label-2");
+                Label currentFloorLabel = new Label("1");
+                currentFloorLabel.getStyleClass().add("label-2");
+                Label directionLabel = new Label("-");
+                directionLabel.getStyleClass().add("label-2");
+                Label targetFloorLabel = new Label("-");
+                targetFloorLabel.getStyleClass().add("label-2");
+                ChoiceBox<Integer> selectFloorChoiceBox = new ChoiceBox<>();
+                selectFloorChoiceBox.setItems(numberOfFloorsList(numberOfFloors));
+                selectFloorChoiceBox.getStyleClass().add("choice-box-1");
+                ChoiceBox<Integer> pickupFloorChoiceBox = new ChoiceBox<>();
+                pickupFloorChoiceBox.setItems(numberOfFloorsList(numberOfFloors));
+                pickupFloorChoiceBox.getStyleClass().add("choice-box-1");
+                ChoiceBox<Direction> pickupFloorButtonChoiceBox = new ChoiceBox<>();
+                pickupFloorButtonChoiceBox.getItems().addAll(Direction.UP, Direction.DOWN);
+                pickupFloorButtonChoiceBox.getStyleClass().add("choice-box-1");
+                hBox.getChildren().addAll(elevatorIdLabel, currentFloorLabel, directionLabel, targetFloorLabel, selectFloorChoiceBox,  pickupFloorChoiceBox, pickupFloorButtonChoiceBox);
+                vBox.getChildren().add(hBox);
+            }
             hBox = new HBox();
             hBox.setSpacing(25);
             hBox.setAlignment(Pos.CENTER);
-            Label elevatorIdLabel = new Label(String.valueOf(i));
-            elevatorIdLabel.getStyleClass().add("label-2");
-            Label currentFloorLabel = new Label("1");
-            currentFloorLabel.getStyleClass().add("label-2");
-            Label directionLabel = new Label("-");
-            directionLabel.getStyleClass().add("label-2");
-            Label targetFloorLabel = new Label("-");
-            targetFloorLabel.getStyleClass().add("label-2");
-            ChoiceBox<Integer> selectFloorChoiceBox = new ChoiceBox<>();
-            selectFloorChoiceBox.setItems(numberOfFloorsList(numberOfFloors));
-            selectFloorChoiceBox.getStyleClass().add("choice-box-1");
-            Button selectConfirmButton = new Button("Confirm");
-            selectConfirmButton.getStyleClass().add("button-1");
-            ChoiceBox<Integer> pickupFloorChoiceBox = new ChoiceBox<>();
-            pickupFloorChoiceBox.setItems(numberOfFloorsList(numberOfFloors));
-            pickupFloorChoiceBox.getStyleClass().add("choice-box-1");
-            ChoiceBox<Direction> pickupFloorButtonChoiceBox = new ChoiceBox<>();
-            pickupFloorButtonChoiceBox.getItems().addAll(Direction.UP, Direction.DOWN);
-            pickupFloorButtonChoiceBox.getStyleClass().add("choice-box-1");
-            Button pickupConfirmButton = new Button("Confirm");
-            pickupConfirmButton.getStyleClass().add("button-1");
-            hBox.getChildren().addAll(elevatorIdLabel, currentFloorLabel, directionLabel, targetFloorLabel, selectFloorChoiceBox, selectConfirmButton, pickupFloorChoiceBox, pickupFloorButtonChoiceBox, pickupConfirmButton);
+            hBox.setMinHeight(15);
             vBox.getChildren().add(hBox);
-            //group.getChildren().add(hBox);
-        }
-        //vBox.getChildren().add(group);
-        hBox = new HBox();
-        hBox.setSpacing(25);
-        hBox.setAlignment(Pos.CENTER);
-        hBox.setMinHeight(15);
-        vBox.getChildren().add(hBox);
-        hBox = new HBox();
-        hBox.setSpacing(25);
-        hBox.setAlignment(Pos.CENTER);
-        stepButton = new Button("Step");
-        stepButton.getStyleClass().add("button-1");
-        stepButton.setOnMouseClicked(e -> {
-            makeStep();
-        });
-        Button restartSettings = new Button("Restart Settings");
-        restartSettings.getStyleClass().add("button-1");
-        restartSettings.setOnMouseClicked(e -> {
-            restartSettings();
-        });
-        group = new ToggleGroup();
+            hBox = new HBox();
+            hBox.setSpacing(25);
+            hBox.setAlignment(Pos.CENTER);
+            stepButton = new Button("Step");
+            stepButton.getStyleClass().add("button-1");
+            stepButton.setOnMouseClicked(e -> {
+                makeStep();
+            });
+            Button restartSettings = new Button("Restart Settings");
+            restartSettings.getStyleClass().add("button-1");
+            restartSettings.setOnMouseClicked(e -> {
+                restartSettings();
+            });
+            group = new ToggleGroup();
 
-        stepByStep = new RadioButton("Step by Step");
-        stepByStep.setToggleGroup(group);
-        stepByStep.setSelected(true);
-        stepByStep.getStyleClass().add("radio-button");
+            stepByStep = new RadioButton("Step by Step");
+            stepByStep.setToggleGroup(group);
+            stepByStep.setSelected(true);
+            stepByStep.getStyleClass().add("radio-button");
+            realTime = new RadioButton("Real time");
+            realTime.setToggleGroup(group);
+            realTime.getStyleClass().add("radio-button");
 
-        realTime = new RadioButton("Real time");
-        realTime.setToggleGroup(group);
-        realTime.getStyleClass().add("radio-button");
-
-        group.selectedToggleProperty().addListener((ov, old_toggle, new_toggle) -> {
-            if (stepByStep == group.getSelectedToggle()) {
-                realTimeFlag = false;
-                stepButton.setDisable(false);
-            }
-            else if (realTime == group.getSelectedToggle()) {
-                realTimeFlag = true;
-                live();
-            }
-        });
-
-        hBox.getChildren().addAll(stepButton,restartSettings,stepByStep,realTime);
-        vBox.getChildren().add(hBox);
+            group.selectedToggleProperty().addListener((ov, old_toggle, new_toggle) -> {
+                if (stepByStep == group.getSelectedToggle()) {
+                    realTimeFlag = false;
+                    stepButton.setDisable(false);
+                }
+                else if (realTime == group.getSelectedToggle()) {
+                    stepButton.setDisable(true);
+                    realTimeFlag = true;
+                    live();
+                }
+            });
+            confirmButton = new Button("Confirm Data");
+            confirmButton.getStyleClass().add("button-1");
+            confirmButton.setOnMouseClicked(e -> {selectEvent(); pickupEvent(); }
+            );
+            hBox.getChildren().addAll(stepButton,restartSettings,stepByStep,realTime, confirmButton);
+            vBox.getChildren().add(hBox);
 
 
     }
@@ -233,8 +225,6 @@ public class WindowController implements Initializable {
             vBox.getChildren().remove(1);
         }
         setAmountOfElevatorsAndFloors();
-        selectEvent();
-        pickupEvent();
         setStatus();
     }
 
@@ -245,6 +235,7 @@ public class WindowController implements Initializable {
         }
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(1, choices);
         dialog.setTitle("");
+        dialog.setHeaderText("");
         dialog.setContentText("Please enter number of elevator:");
         dialog.setGraphic(null);
         Optional<Integer> result = dialog.showAndWait();
@@ -254,6 +245,7 @@ public class WindowController implements Initializable {
     public int getNumberOfFloorsDialogResult() {
         TextInputDialog dialog = new TextInputDialog("10");
         dialog.setTitle("");
+        dialog.setHeaderText("");
         dialog.setContentText("Please enter number of floors:");
         dialog.setGraphic(null);
         Optional<String> result = dialog.showAndWait();
@@ -262,73 +254,76 @@ public class WindowController implements Initializable {
     }
 
     public void selectEvent() {
+        List<DataForSelectDto> list = new ArrayList<>();
+        DataForSelectDto dataForSelectDto;
         for (Node i : vBox.getChildren()) {
             if (skipIsFirstHBox(vBox, i)) {
                 continue;
             }
-            vBox.getChildren().indexOf(i);
             HBox hBox = (HBox) i;
+
             if (isCorrectHbox(hBox)) {
-                getSelectConfirmButton(hBox).setOnMouseClicked(e -> {
-                    ChoiceBox<Integer> choiceBox = getSelectFloorChoiceBox(hBox);
-                    if (choiceBox.getValue() == null) {
-                        return;
-                    }
-                    DataForSelectDto dataForSelectDto = new DataForSelectDto();
-                    dataForSelectDto.setElevatorId(getElevatorId(hBox));
-                    dataForSelectDto.setSelectedFloor(choiceBox.getValue());
-                    choiceBox.setValue(null);
-                    rest.select(dataForSelectDto, (result) -> {
-                    });
-                });
+                ChoiceBox<Integer> selectFloorChoiceBox = getSelectFloorChoiceBox(hBox);
+                if (selectFloorChoiceBox.getValue() == null) {
+                    continue;
+                }
+                dataForSelectDto = new DataForSelectDto();
+                dataForSelectDto.setElevatorId(getElevatorId(hBox));
+                dataForSelectDto.setSelectedFloor(selectFloorChoiceBox.getValue());
+                selectFloorChoiceBox.setValue(null);
+                list.add(dataForSelectDto);
+            } else {
+                break;
             }
+        }
+        if(!list.isEmpty()) {
+            rest.select(list, (result) -> {
+            });
         }
     }
 
     private boolean isCorrectHbox(HBox hBox) {
-        return hBox.getChildren().size() == 9;
+        return hBox.getChildren().size() == 7;
     }
 
-
     public void pickupEvent() {
+        List<DataForPickupDto> list = new ArrayList<>();
+        DataForPickupDto dataForPickupDto;
         for (Node i : vBox.getChildren()) {
             if (skipIsFirstHBox(vBox, i)) {
                 continue;
             }
-            vBox.getChildren().indexOf(i);
             HBox hBox = (HBox) i;
 
             if (isCorrectHbox(hBox)) {
-                getPickupConfirmButton(hBox).setOnMouseClicked(e -> {
                     ChoiceBox<Integer> pickupFloorChoiceBox = getPickupFloorChoiceBox(hBox);
                     ChoiceBox<Direction> pickupButtonChoiceBox = getPickupButtonChoiceBox(hBox);
                     if (pickupFloorChoiceBox.getValue() == null || pickupButtonChoiceBox.getValue() == null) {
-                        return;
+                        continue;
                     }
-                    DataForPickupDto dataForPickupDto = new DataForPickupDto();
+                    dataForPickupDto = new DataForPickupDto();
                     dataForPickupDto.setElevatorId(getElevatorId(hBox));
                     dataForPickupDto.setRequestedFloor(pickupFloorChoiceBox.getValue());
                     dataForPickupDto.setDirection(pickupButtonChoiceBox.getValue());
                     pickupFloorChoiceBox.setValue(null);
                     pickupButtonChoiceBox.setValue(null);
-                    rest.pickup(dataForPickupDto, (result) -> {
-                    });
-
-                });
+                    list.add(dataForPickupDto);
+            } else {
+                break;
             }
+        }
+        if(!list.isEmpty()) {
+            rest.pickup(list, (result) -> {
+            });
         }
     }
 
     private ChoiceBox<Integer> getPickupFloorChoiceBox(HBox hBox) {
-        return (ChoiceBox<Integer>) hBox.getChildren().get(6);
+        return (ChoiceBox<Integer>) hBox.getChildren().get(5);
     }
 
     private ChoiceBox<Direction> getPickupButtonChoiceBox(HBox hBox) {
-        return (ChoiceBox<Direction>) hBox.getChildren().get(7);
-    }
-
-    private Node getPickupConfirmButton(HBox hBox) {
-        return hBox.getChildren().get(8);
+        return (ChoiceBox<Direction>) hBox.getChildren().get(6);
     }
 
     private int getElevatorId(HBox hBox) {
@@ -348,8 +343,21 @@ public class WindowController implements Initializable {
         return (ChoiceBox) hBox.getChildren().get(4);
     }
 
-    private Node getSelectConfirmButton(HBox hBox) {
-        return hBox.getChildren().get(5);
-    }
+//    private void localOrAWSHost(){
+//        List<String> choices = new ArrayList<>();
+//            choices.add("LOCAL");
+//            choices.add("AWS");
+//        ChoiceDialog<String> dialog = new ChoiceDialog<>("AWS", choices);
+//        dialog.setHeaderText("");
+//        dialog.setTitle("");
+//        dialog.setContentText("Please choose host:");
+//        dialog.setGraphic(null);
+//        Optional<String> result = dialog.showAndWait();
+//        if(result.orElseThrow().equals("LOCAL")) {
+//            rest.setLocalAwsHost("http://localhost:8080");
+//        } else {
+//            RestImpl.LOCAL_AWS_HOST = "aws";
+//        }
+//    }
 
 }
