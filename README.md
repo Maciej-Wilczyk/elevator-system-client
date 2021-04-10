@@ -22,12 +22,12 @@ You must turn on the elevator-system-server before starting this application. Yo
 The easiest way to start the application with Maven (you must have it installed on your computer)
 is to open the console in the project directory and run the command: <br /> mvn javafx:run
 ## Features
-* GUI implementation:
+* GUI implementation
 * Communication with server
 
 ## Basic overview
 Application window![](images/system.PNG)
-Click it to make a simulation step <br /> ![](images/step.PNG)<br />Select the target floor (buttons panel inside elevator)<br />![](images/select.PNG)<br />Call for an elevator to a requested floor and indicate in which direction you want to go!<br />![](images/pickup[.PNG)<br />Confirm data from select "Select floor", "Pickup floor", "Pickup Button"<br />![](images/confirm.PNG)<br />Restart configuration - set number of floors and elevators<br />![](images/restart.PNG)<br />![](images/numberElevators.PNG)<br />![](images/numberFloors.PNG)<br />Select the operating mode<br />step by step - need to click step button to make a step<br />real time - the system works in its own time<br />![](images/time.PNG)<br />Green color shows that the target floor has been reached<br />![](images/reached.PNG)<br />Do you want to save data?<br />![](images/save.PNG)<br />
+Click step Button to make a simulation step <br /> ![](images/step.PNG)<br />Select the target floor (button panel inside elevator)<br />![](images/select.PNG)<br />Call for an elevator to a floor and indicate in which direction you want to go!<br />![](images/pickup[.PNG)<br />Confirm data from "Select floor", "Pickup floor", "Pickup Button"<br />![](images/confirm.PNG)<br />Restart configuration - set number of floors and elevators<br />![](images/restart.PNG)<br />![](images/numberElevators.PNG)<br />![](images/numberFloors.PNG)<br />Select the operating mode<br />step by step - you need to click step button to make a step<br />real time - the system works in its own time<br />![](images/time.PNG)<br />Green color shows that the target floor has been reached<br />![](images/reached.PNG)<br />Do you want to save data?<br />![](images/save.PNG)<br />
 
 
 
