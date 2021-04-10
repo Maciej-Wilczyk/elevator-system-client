@@ -15,11 +15,14 @@ Project is created with:
 * Spring-Boot
 * Maven
 
+The easiest way to start the application with Maven (you must have it installed on your computer) is to open the CMD window in the project directory and run the command:
+mvn spring-boot:run
+
 ## Setup
 You need Java 11 (minimum) installed to run the application. Clone this repo to your desktop or dowland zip.
 You must turn on the elevator-system-server before starting this application. You can find it here: https://github.com/Maciej-Wilczyk/elevator-system-server <br />
 The easiest way to start the application with Maven (you must have it installed on your computer)
-In the console go to the project folder and run the command: <br /> mvn javafx:run
+is to open the console in the project directory and run the command: <br /> mvn javafx:run
 ## Features
 * GUI implementation:
 * comunication with server
